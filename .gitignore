@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Custom Project Files
+.gemini/
+架構.drawio
+*.png
+!**/static/*.png
+!**/static/**/*.png
+新增 OpenDocument 文字.odt
+架構參考.png
+購物架構參考.png
+初步架構圖.png
+{8B3E8A9A-298E-4574-83C7-E02F32881FE2}.png

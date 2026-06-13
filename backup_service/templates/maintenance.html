@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>極致尊榮 - 系統維護中 (備援服務已接管)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #FDFBF7; /* 溫暖米白色 */
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary-color: #1A252C; /* 深炭灰 */
+            --accent-color: #C5A880; /* 奢華香檳金 */
+            --text-main: #2C3E50;
+            --text-muted: #7F8C8D;
+            --warning-color: #D35400; /* 備援警示橘色 */
+            --danger-color: #E74C3C;
+            --success-color: #2ECC71;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(211, 84, 0, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(26, 37, 44, 0.03) 0px, transparent 50%);
+        }
+
+        /* 備援啟動警示橫幅 */
+        #failover-banner {
+            background-color: var(--warning-color);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(211, 84, 0, 0.15);
+        }
+
+        header {
+            padding: 24px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+            background: rgba(253, 251, 247, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .system-badge {
+            background: rgba(211, 84, 0, 0.1);
+            color: var(--warning-color);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(211, 84, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot-pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--warning-color);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(211, 84, 0, 0.7); }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 8px rgba(211, 84, 0, 0); }
+            100% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(211, 84, 0, 0); }
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: 60px auto;
+            flex: 1;
+            text-align: center;
+        }
+
+        .maintenance-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            color: var(--accent-color);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+        }
+
+        h1 span {
+            color: var(--warning-color);
+        }
+
+        .description {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .status-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(211, 84, 0, 0.15);
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .status-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.05);
+            font-size: 14px;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .status-val {
+            font-weight: 600;
+        }
+
+        .val-danger { color: var(--danger-color); }
+        .val-warning { color: var(--warning-color); }
+        .val-success { color: var(--success-color); }
+
+        .btn-check {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .btn-check:hover {
+            background-color: #2c3e50;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 13px;
+            border-top: 1px solid rgba(197, 168, 128, 0.1);
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 備援啟動警示橫幅 -->
+    <div id="failover-banner">
+        🔄 AWS ALB 故障轉移 (Failover) 已生效：主服務異常，目前由備援目標群組（Target Group B）提供服務。
+    </div>
+
+    <header>
+        <div class="logo">
+            <span>AURA</span> SEDAN RENTAL
+        </div>
+        <div class="system-badge">
+            <span class="status-dot-pulse"></span>
+            <span>備援服務接管中</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="maintenance-icon">🛡️</div>
+        <h1>系統維護中 <span>(備援模式啟動)</span></h1>
+        <p class="description">
+            感謝您的光臨。我們的主服務伺服器目前正由 GitHub Actions 進行自動修復與重新部署。
+            為了不中斷您的瀏覽體驗，本備援系統已自動接管。
+        </p>
+
+        <!-- 展示容錯監控卡片 -->
+        <div class="status-card">
+            <div class="status-title">
+                <span>📊 專題演示容錯監控面板</span>
+                <span style="font-size:12px; color: var(--text-muted);">Port: 5270</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">目前路由入口</span>
+                <span class="status-val val-warning">Target Group B (備援服務)</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">主伺服器健康狀態 (Target Group A)</span>
+                <span class="status-val val-danger">🔴 Unhealthy (HTTP 500)</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">自動修復機制 (GitOps)</span>
+                <span class="status-val val-warning">等待開發者 Git Push 自動部署...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">備援系統功能限制</span>
+                <span class="status-val">唯讀模式 (查詢功能暫停，系統確保基本存活)</span>
+            </div>
+        </div>
+
+        <!-- 提供手動重整檢查的按鈕 -->
+        <button class="btn-check" onclick="window.location.reload();">🔄 重新整理：檢查主服務是否修復</button>
+    </div>
+
+    <footer>
+        <p>© 2026 AURA Sedan Rental Microservices Project. Running on AWS ECS Fargate & ALB.</p>
+    </footer>
+
+</body>
+</html>
