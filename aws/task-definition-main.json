@@ -1,0 +1,35 @@
+{
+  "family": "car-rental-main-task",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "main-container",
+      "image": "744538134832.dkr.ecr.ap-northeast-1.amazonaws.com/car-rental-main:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "containerPort": 5260,
+          "hostPort": 5260,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/car-rental-main-task",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::744538134832:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::744538134832:role/ecsTaskExecutionRole"
+}

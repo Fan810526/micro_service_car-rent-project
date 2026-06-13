@@ -6,6 +6,11 @@ __pycache__/
 venv/
 ENV/
 
+# Credentials / Secrets
+*.csv
+*accessKeys*
+
+
 # OS
 .DS_Store
 Thumbs.db

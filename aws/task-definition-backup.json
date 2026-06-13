@@ -1,0 +1,35 @@
+{
+  "family": "car-rental-backup-task",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "backup-container",
+      "image": "744538134832.dkr.ecr.ap-northeast-1.amazonaws.com/car-rental-backup:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "containerPort": 5270,
+          "hostPort": 5270,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/car-rental-backup-task",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::744538134832:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::744538134832:role/ecsTaskExecutionRole"
+}

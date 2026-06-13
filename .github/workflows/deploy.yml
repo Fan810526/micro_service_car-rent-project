@@ -1,4 +1,4 @@
-name: Build and Push to ECR
+name: Build, Push, and Deploy to ECS
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Build and Push to ECR
+    name: Build, Push, and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, Tag, and Push Main Service Image
+        id: build-main-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: car-rental-main
@@ -36,8 +37,10 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./main_service
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Build, Tag, and Push Backup Service Image
+        id: build-backup-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: car-rental-backup
@@ -45,3 +48,39 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./backup_service
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      # 部署主服務至 ECS
+      - name: Fill in the new image ID in the Amazon ECS task definition for Main Service
+        id: render-main-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: aws/task-definition-main.json
+          container-name: main-container
+          image: ${{ steps.build-main-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition for Main Service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-main-container.outputs.task-definition }}
+          service: car-rental-main-service
+          cluster: car-rental-cluster
+          wait-for-service-stability: false  # 設為 false 以免部署等待過久
+
+      # 部署備援服務至 ECS
+      - name: Fill in the new image ID in the Amazon ECS task definition for Backup Service
+        id: render-backup-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: aws/task-definition-backup.json
+          container-name: backup-container
+          image: ${{ steps.build-backup-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition for Backup Service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-backup-container.outputs.task-definition }}
+          service: car-rental-backup-service
+          cluster: car-rental-cluster
+          wait-for-service-stability: false  # 設為 false 以免部署等待過久
+
