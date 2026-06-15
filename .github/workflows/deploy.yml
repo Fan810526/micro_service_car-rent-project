@@ -63,7 +63,7 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.render-main-container.outputs.task-definition }}
-          service: car-rental-main-service
+          service: car-rental-main-task-service-0sq8etke
           cluster: car-rental-cluster
           wait-for-service-stability: false  # 設為 false 以免部署等待過久
 
