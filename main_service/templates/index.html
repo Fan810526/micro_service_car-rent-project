@@ -343,7 +343,7 @@
             <!-- 功能 2 模擬操作與故障觸發 -->
             <div class="card" id="query-card">
                 <div>
-                    <h2>功能 2: 轎車數據查詢</h2>
+                    <h2>功能 2: 轎車數據查詢 (正常)</h2>
                     <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
                         向主服務端點查詢當前可租賃轎車列表。
                     </p>
@@ -358,8 +358,8 @@
                 </div>
                 <div>
                     <button class="btn btn-accent" onclick="queryCarData()">查詢可用車款</button>
-                    <!-- 點擊觸發崩潰 -->
-                    <button class="btn btn-danger" onclick="triggerCrash()">🚨 模擬故障：觸發服務崩潰</button>
+                    <!-- 已修復版本：移除/停用崩潰按鈕，標示服務正常 -->
+                    <button class="btn btn-primary" style="background-color: var(--success-color); cursor: default; margin-top: 15px;" disabled>✅ 服務正常：已自動部屬更新</button>
                 </div>
             </div>
         </div>
